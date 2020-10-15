@@ -1,33 +1,38 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-const axios = require('axios');
+import { List, Avatar, PageHeader } from 'antd'
+import axios from 'axios'
 
-class PatientsList extends React.Component {
+const PatientsList = () => {
 
+	const [patients, setPatients] = useState([])
 
-	constructor(props) {
-		super(props);
-		this.state = {patients: []}
-	}
-
-	componentDidMount () {
+	useEffect(() => {
 		axios.get('http://192.168.10.10/api/patient')
-			.then( (response) => {
-				this.setState({patients: response.data})
+			.then((response) => {
+				console.log(response.data)
+				setPatients(response.data)
 			})
-	}
+	}, [])
 
-	render() {
-		const listPatients = this.state.patients.map((patient) =>
-			<li key={patient.id}>Name: {patient.name}  - <Link to={'/patients/'+patient.id}>Details</Link></li>
-		)
-		return <div>
-			<h3>Welcome to the Item List page.</h3>
-			<ul>
-				{listPatients}
-			</ul>
-		</div>
-	}
+	return <div>
+		<PageHeader title='Patients'/>
+		<List
+			bordered
+			size='small'
+			itemLayout="horizontal"
+			dataSource={patients}
+			renderItem={patient => (
+				<List.Item actions={[<Link to={'/patients/' + patient.id}>Details</Link>]}>
+					<List.Item.Meta
+						avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"/>}
+						title={patient.first_name + ' ' + patient.last_name}
+					/>
+				</List.Item>
+			)}
+		/>
+	</div>
+
 }
 
-export default PatientsList;
+export default PatientsList

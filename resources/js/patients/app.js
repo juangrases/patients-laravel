@@ -1,5 +1,3 @@
-require('../bootstrap');
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Link } from 'react-router-dom'
@@ -9,9 +7,7 @@ class App extends React.Component {
 	render() {
 		return (
 			<Router>
-				<div>
-					<Link to={'/'}>Dashboard</Link> |
-					<Link to={'/patients'}>Items</Link>
+				<div style={{margin: "30px"}}>
 					<Routes />
 				</div>
 			</Router>

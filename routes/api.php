@@ -1,5 +1,6 @@
 <?php
 
+use App\Appointment;
 use App\Patient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -48,6 +49,17 @@ Route::get('/patient/{id}/appointments', function (Request $request, $id) {
 
 Route::post('/patient', function (Request $request) {
     $patient = new Patient;
-    $patient->name = $request->input('name');
+    $patient->first_name = $request->input('first_name');
+    $patient->last_name = $request->input('last_name');
+    $patient->phone_number = $request->input('phone_number');
+    $patient->birth_date = $request->input('birth_date');
     $patient->save();
+});
+
+Route::post('/patient/{id}/appointment', function (Request $request, $id) {
+    $appointment = new Appointment();
+    $appointment->patient_id = $id;
+    $appointment->start_date = $request->input('start_date');
+    $appointment->type = $request->input('type');
+    $appointment->save();
 });
