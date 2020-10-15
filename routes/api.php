@@ -27,7 +27,9 @@ Route::get('/patient', function (Request $request) {
 Route::get('/patient/{id}', function (Request $request, $id) {
     $includeAppointments = $request->query('includeAppointments');
     if($includeAppointments === 'true'){
-        return App\Patient::with('appointments')->find($id);
+        return App\Patient::with(array('appointments' => function($query) {
+            $query->orderBy('start_date', 'DESC');
+        }))->find($id);
     }else{
         return App\Patient::find($id);
     }
