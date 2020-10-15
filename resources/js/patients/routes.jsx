@@ -9,7 +9,6 @@ class Routes extends React.Component {
 			<Switch>
 				<Route exact path='/' component={PatientsList} />
 				<Route path='/patients/:id' component={PatientView} />
-				<Route path='/patients' component={PatientsList} />
 			</Switch>
 		)
 	}
